@@ -1,0 +1,18 @@
+{
+  "bank.sol": {
+    "__sources__": {
+      "bank.sol": {
+        "content": "//SPDX-License-Identifier: UNLICENSED\r\n\r\n\r\npragma solidity ^0.8.5;\r\n\r\ncontract Bank{\r\n    address actHolder;\r\n    uint256 balance=0;\r\n\r\n    constructor(){\r\n        actHolder=msg.sender;\r\n    }\r\n    \r\n    function deposit() public payable {\r\n        require(msg.value>0,\"deposit amt shd be greater than 0\");\r\n        require(msg.sender==actHolder,\"youre not allowed\");\r\n        balance=balance+msg.value;\r\n    }\r\n\r\n    function checkBalance() public view returns(uint){\r\n        require(msg.sender==actHolder,\"youre not allowed\");\r\n        return balance;\r\n    }\r\n\r\n    function withdraw() public payable{\r\n        require(msg.sender==actHolder,\"youre not allowed\");\r\n        require(msg.value>0,\"u cant withdraw null\");\r\n        require(msg.value<=balance,\"withrawal amount invalid\");\r\n        balance=balance-msg.value;\r\n        //(bool success, ) = payable(actHolder).call{value: amount}(\"\");\r\n        //require(success, \"withdrawal failed\");\r\n    }\r\n}\r\n",
+        "file": "bank.sol"
+      }
+    }
+  },
+  "student.sol": {
+    "__sources__": {
+      "student.sol": {
+        "content": "//SPDX-License-Identifier: UNLICENSED\r\n\r\npragma solidity ^0.8.5;\r\n\r\ncontract Student{\r\n\r\n    struct student{\r\n        string name;\r\n        uint256 rollno;\r\n    }\r\n\r\n    student[] public studentarr;\r\n\r\n    function addStudent(string memory n, uint r) public {\r\n        for(uint i=0;i<studentarr.length;i++){\r\n            if(studentarr[i].rollno==r){\r\n                revert(\"st alr exist\");\r\n            }\r\n        }\r\n        studentarr.push(student(n,r));\r\n    }\r\n\r\n    function getStudentCount() public view returns(uint){\r\n        return studentarr.length;\r\n    }\r\n\r\n    function displayStudents() public view returns(student[] memory){\r\n        return studentarr;\r\n    }\r\n\r\n    function getStudentbyIndex(uint index) public view returns(student memory){\r\n        require(index<studentarr.length,\"enter valid index\");\r\n        return studentarr[index];\r\n    }\r\n\r\n    //fallback\r\n    fallback() external payable {\r\n        //this function ext function call not thwre\r\n     }\r\n\r\n     receive() external payable { \r\n        //\r\n     }\r\n\r\n    \r\n}\r\n",
+        "file": "student.sol"
+      }
+    }
+  }
+}
